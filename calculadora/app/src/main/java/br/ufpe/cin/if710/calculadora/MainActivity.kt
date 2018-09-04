@@ -1,13 +1,92 @@
 package br.ufpe.cin.if710.calculadora
 
 import android.app.Activity
+import android.app.Dialog
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.app.AlertDialog
+import org.w3c.dom.Text
 
 class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val btn_0 = findViewById(R.id.btn_0) as Button
+        val btn_1 = findViewById(R.id.btn_1) as Button
+        val btn_2 = findViewById(R.id.btn_2) as Button
+        val btn_3 = findViewById(R.id.btn_3) as Button
+        val btn_4 = findViewById(R.id.btn_4) as Button
+        val btn_5 = findViewById(R.id.btn_5) as Button
+        val btn_6 = findViewById(R.id.btn_6) as Button
+        val btn_7 = findViewById(R.id.btn_7) as Button
+        val btn_8 = findViewById(R.id.btn_8) as Button
+        val btn_9 = findViewById(R.id.btn_9) as Button
+
+        val btn_add = findViewById(R.id.btn_Add) as Button
+        val btn_sub = findViewById(R.id.btn_Subtract) as Button
+        val btn_mult = findViewById(R.id.btn_Multiply) as Button
+        val btn_div = findViewById(R.id.btn_Divide) as Button
+
+        val btn_lParen = findViewById(R.id.btn_LParen) as Button
+        val btn_rParen = findViewById(R.id.btn_RParen) as Button
+        val btn_power = findViewById(R.id.btn_Power) as Button
+        val btn_clear = findViewById(R.id.btn_Clear) as Button
+        val btn_dot = findViewById(R.id.btn_Dot) as Button
+
+        val btn_equal = findViewById(R.id.btn_Equal) as Button
+
+        val text_calc = findViewById(R.id.text_calc) as EditText
+        val text_info = findViewById(R.id.text_info) as TextView
+
+        btn_0.setOnClickListener { text_calc.text.append(btn_0.text) }
+        btn_1.setOnClickListener { text_calc.text.append(btn_1.text) }
+        btn_2.setOnClickListener { text_calc.text.append(btn_2.text) }
+        btn_3.setOnClickListener { text_calc.text.append(btn_3.text) }
+        btn_4.setOnClickListener { text_calc.text.append(btn_4.text) }
+        btn_5.setOnClickListener { text_calc.text.append(btn_5.text) }
+        btn_6.setOnClickListener { text_calc.text.append(btn_6.text) }
+        btn_7.setOnClickListener { text_calc.text.append(btn_7.text) }
+        btn_8.setOnClickListener { text_calc.text.append(btn_8.text) }
+        btn_9.setOnClickListener { text_calc.text.append(btn_9.text) }
+
+        btn_add.setOnClickListener { text_calc.setText(text_calc.text.toString() + "+") }
+        btn_sub.setOnClickListener { text_calc.setText(text_calc.text.toString() + "-") }
+        btn_mult.setOnClickListener { text_calc.setText(text_calc.text.toString() + "*") }
+        btn_div.setOnClickListener { text_calc.setText(text_calc.text.toString() + "/") }
+
+        btn_lParen.setOnClickListener { text_calc.setText(text_calc.text.toString() + "(") }
+        btn_rParen.setOnClickListener { text_calc.setText(text_calc.text.toString() + ")") }
+        btn_power.setOnClickListener { text_calc.setText(text_calc.text.toString() + "^") }
+
+        btn_dot.setOnClickListener { text_calc.setText(text_calc.text.toString() + ".") }
+
+        btn_equal.setOnClickListener{
+            try {
+                var exp = text_calc.text.toString()
+                var result = eval(exp)
+                text_info.text = result.toString()
+            }catch(e:Exception){
+                showDialog(e.message)
+            }
+
+        }
+
+        btn_clear.setOnClickListener{
+            text_calc.setText("")
+        }
+
+    }
+
+
+    fun showDialog(message:String?){
+        var alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Erro")
+        alertDialog.setMessage(message)
+        alertDialog.show()
     }
 
     //Como usar a função:
@@ -102,4 +181,5 @@ class MainActivity : Activity() {
             }
         }.parse()
     }
+
 }
