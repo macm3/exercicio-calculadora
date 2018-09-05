@@ -11,10 +11,20 @@ import org.w3c.dom.Text
 
 class MainActivity : Activity() {
 
+    //passo 4: Ao ocorrerem mudanças de configuração, a expressão digitada e o último valor calculado devem permanecer visíveis na aplicação.
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("text_info", findViewById<TextView>(R.id.text_info).text.toString())
+        outState.putString("text_calc", findViewById<TextView>(R.id.text_calc).text.toString())
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //passos 1-2
+        //Associe listeners para cada botão da calculadora, de forma a inserir a informação no EditText com id text_calc;
+        //Ao clicar no botão =, é feita a avaliação da expressão, armazenada em text_info;
         val btn_0 = findViewById(R.id.btn_0) as Button
         val btn_1 = findViewById(R.id.btn_1) as Button
         val btn_2 = findViewById(R.id.btn_2) as Button
@@ -79,9 +89,19 @@ class MainActivity : Activity() {
             text_calc.setText("")
         }
 
+        if (savedInstanceState != null) {
+            val calc_text = savedInstanceState.getString("text_calc", "");
+            text_calc.setText(calc_text)
+        }
+
+        if (savedInstanceState != null) {
+            val info_text = savedInstanceState.getString("text_info", "");
+            text_info.setText(info_text)
+        }
+
     }
 
-
+    //passo 3: Ao inserir expressões inválidas, exiba um Toast ou Dialog informando erro, ao invés de quebrar a aplicação;
     fun showDialog(message:String?){
         var alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle("Erro")
